@@ -1,0 +1,73 @@
+info:
+  contact:
+    email: alyevgenyal@mail.ru
+    name: Alyoshkin Yevgeny
+  description: API Server for Analytics Application
+  title: Analytics API
+  version: "1.0"
+paths:
+  /analytics/results:
+    get:
+      description: generates a report on the result of completed tasks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: getResultsReport
+      tags:
+      - analytics
+  /analytics/time:
+    get:
+      description: generates a report on the total time and approval time
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: getTimeReport
+      tags:
+      - analytics
+  /switch:
+    get:
+      consumes:
+      - application/json
+      description: switch debug mode
+      parameters:
+      - description: switch debug
+        example: "on"
+        in: query
+        name: profiler
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: switcher
+      tags:
+      - analytics
+swagger: "2.0"

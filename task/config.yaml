@@ -1,0 +1,20 @@
+service-name: team35_task
+
+port: 3000
+grpc-port: 4000
+port-metrics: 9000
+
+host-auth: auth
+host-analytics: analytics
+
+mongo-conn: mongodb://team35:mNgd1MTbhVGd@91.185.93.34:27017/team35
+mongo-db: team35
+
+profiler: false
+
+dsn: https://02537f2093c0421486c0b9b99f9acfda@sentry.k8s.golang-mts-teta.ru/26
+
+jaeger-collector: http://jaeger-instance-collector.observability:14268/api/traces
+
+swagger-host: localhost:3000
+swagger-base-path:

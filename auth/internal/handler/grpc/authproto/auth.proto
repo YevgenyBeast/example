@@ -1,0 +1,27 @@
+syntax = "proto3";
+option go_package="./authpb;authpb";
+package authproto;
+
+// Auth - сервис аутентификации
+service Auth {
+    rpc Validate(ValidateRq) returns (ValidateRs) {}
+}
+
+// ValidateRq запрос на валидацию
+message ValidateRq {
+    string access = 1;
+    string refresh = 2;
+}
+
+// ValidateRs результат валидации
+message ValidateRs {
+    User user  = 1;
+    string access = 2;
+    string refresh = 3;
+}
+
+// User описание пользователя
+message User {
+    string UserLogin = 1;
+    string UserEmail = 2;
+}

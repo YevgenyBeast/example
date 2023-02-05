@@ -1,0 +1,143 @@
+definitions:
+  model.AuthResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  model.User:
+    properties:
+      email:
+        example: test@mail.com
+        type: string
+      id:
+        example: 54084cbe-2b1c-4829-9720-8a36202f79ce
+        type: string
+      login:
+        example: TestUser
+        type: string
+      password:
+        example: DerParol
+        type: string
+    type: object
+info:
+  contact:
+    email: alyevgenyal@mail.ru
+    name: Alyoshkin Yevgeny
+  description: API Server for Auth Application
+  title: Auth API
+  version: "1.0"
+paths:
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: create user in BD
+      parameters:
+      - description: User data
+        in: body
+        name: userReq
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: create
+      tags:
+      - auth
+  /i:
+    get:
+      description: get information about logged user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+      summary: getInformation
+      tags:
+      - auth
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login user
+      parameters:
+      - description: BasicAuth
+        example: Basic VGVzdFVzZXI6RGVyUGFyb2w=
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.AuthResponse'
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+      summary: login
+      tags:
+      - auth
+  /logout:
+    post:
+      description: logout user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: logout
+      tags:
+      - auth
+  /switch:
+    get:
+      consumes:
+      - application/json
+      description: switch debug mode
+      parameters:
+      - description: switch debug
+        example: "on"
+        in: query
+        name: profiler
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: switcher
+      tags:
+      - auth
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

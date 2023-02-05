@@ -1,0 +1,299 @@
+definitions:
+  models.Approval:
+    properties:
+      login:
+        example: approval1, approval2
+        type: string
+    type: object
+  models.Task:
+    properties:
+      approvalLogins:
+        example:
+        - approval1
+        - approval2
+        items:
+          type: string
+        type: array
+      currentApprovalNumber:
+        example: 0
+        type: integer
+      id:
+        example: 55e1b4bf-12a7-4809-b0f5-c17e1f69e7fa
+        type: string
+      initiatorLogin:
+        example: author
+        type: string
+      status:
+        example: 0
+        type: integer
+    type: object
+  models.TaskRes:
+    properties:
+      approval:
+        items:
+          $ref: '#/definitions/models.Approval'
+        type: array
+      id:
+        example: 55e1b4bf-12a7-4809-b0f5-c17e1f69e7fa
+        type: string
+      initiatorLogin:
+        example: author
+        type: string
+    type: object
+info:
+  contact:
+    email: alyevgenyal@mail.ru
+    name: Alyoshkin Yevgeny
+  description: API Server for Task Application
+  title: Task API
+  version: "1.0"
+paths:
+  /switch:
+    get:
+      consumes:
+      - application/json
+      description: switch debug mode
+      parameters:
+      - description: switch debug
+        example: "on"
+        in: query
+        name: profiler
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: switcher
+      tags:
+      - task
+  /tasks/:
+    get:
+      description: get all tasks from DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TaskRes'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: getAllTasks
+      tags:
+      - task
+  /tasks/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete task by id from DB
+      parameters:
+      - description: TaskID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: delete
+      tags:
+      - task
+    get:
+      consumes:
+      - application/json
+      description: get task by id from DB
+      parameters:
+      - description: TaskID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+      summary: getTaskByID
+      tags:
+      - task
+    put:
+      consumes:
+      - application/json
+      description: update task and run it again
+      parameters:
+      - description: TaskID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: update
+      tags:
+      - task
+  /tasks/{id}/approve/{login}:
+    post:
+      consumes:
+      - application/json
+      description: approve task
+      parameters:
+      - description: TaskID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Approval Login
+        in: path
+        name: login
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: approve
+      tags:
+      - task
+  /tasks/{id}/decline/{login}:
+    post:
+      consumes:
+      - application/json
+      description: decline task
+      parameters:
+      - description: TaskID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Approval Login
+        in: path
+        name: login
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: decline
+      tags:
+      - task
+  /tasks/run:
+    post:
+      consumes:
+      - application/json
+      description: create task and run it
+      parameters:
+      - description: Task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: create
+      tags:
+      - task
+swagger: "2.0"

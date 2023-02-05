@@ -1,0 +1,19 @@
+service-name: team35_analytics
+
+port: 3002
+grpc-port: 4002
+port-metrics: 9002
+
+host-auth: localhost
+
+postgre-conn: postgres://team35:mNgd1MTbhVGd@91.185.93.23:5432/team35
+postgre-db: team35
+
+profiler: false
+
+dsn: https://0211ed61bfbb4b47b31ec859cb2e01e4@sentry.k8s.golang-mts-teta.ru/33
+
+jaeger-collector: http://jaeger-instance-collector.observability:14268/api/traces
+
+swagger-host: localhost:3000
+swagger-base-path:
